@@ -2102,23 +2102,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "connd"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "color-eyre",
- "dogstatsd",
- "orb-backend-status-dbus",
- "orb-info",
- "serde",
- "serde_json",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "zbus",
-]
-
-[[package]]
 name = "console"
 version = "0.15.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7440,6 +7423,7 @@ version = "0.0.0"
 dependencies = [
  "derive_more 2.0.1",
  "orb-telemetry",
+ "orb-update-agent-dbus",
  "serde",
  "zbus",
 ]
@@ -7624,6 +7608,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "orb-connd"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "color-eyre",
+ "dogstatsd",
+ "orb-backend-status-dbus",
+ "orb-info",
+ "orb-telemetry",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "zbus",
+]
+
+[[package]]
 name = "orb-const-concat"
 version = "0.0.0"
 
@@ -7656,7 +7658,7 @@ dependencies = [
 
 [[package]]
 name = "orb-hil"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "aws-config",
  "aws-sdk-s3",
