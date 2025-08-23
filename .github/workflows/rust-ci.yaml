@@ -1,19 +1,5 @@
 name: Rust CI
-on:
-  pull_request:
-  workflow_dispatch:
-  workflow_call:
-    secrets:
-      ORB_GIT_HUB_TOKEN:
-        required: true
-      CACHIX_AUTH_TOKEN:
-        required: false
-  push:
-    branches:
-      - main
-      - prod
-    tags:
-      - '**'
+on: [push, pull_request]
 
 jobs:
   fmt:
